@@ -1,0 +1,15 @@
+Create a HTML form that allows a user to enter and submit a real (decimal) number. 
+    After pressing submit, use PHP to retrieve the number and store as a variable. 
+    Display the result when ceil, floor, and round functions are applied to that variable. 
+    Test your code with a variety of real numbers.
+
+Create a HTML form that allows a user to enter a date with the format YYYY-MM-DD. 
+    After pressing submit, use PHP to calculate and display the number of days between the 
+    date entered and June 30, 2016.
+
+Create a HTML form that allows a user to enter two numbers. After pressing submit, 
+    use PHP to retrieve the numbers and store them as variables. 
+    Create 4 functions (addThem, subtractThem, multiplyThem, and divideThem) that accepts both variables, 
+    does the appropriate mathematic operation, and sends the result back to the program. 
+    Call each function in your program and display the result of the function calls using the 
+    following format: $x plus $y is $result, $x minus $y is $result2, etc...
