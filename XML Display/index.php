@@ -2,14 +2,14 @@
     include("Movie.php"); 
     
 
-    if (file_exists("fav_movies.xml") ) {
-        $myFile = fopen("fav_movies.xml", "r");
-        $data = fread($myFile, filesize("fav_movies.xml"));
+    if (file_exists("movies.xml") ) {
+        $myFile = fopen("movies.xml", "r");
+        $data = fread($myFile, filesize("movies.xml"));
         fclose($myFile); 
 
         echo "<style>table, th, td { margin:24; border: 1px solid black;} </style>";
 
-        $xml = simplexml_load_file("fav_movies.xml");
+        $xml = simplexml_load_file("movies.xml");
 
         $tempT = "";
         $tempP = "";
@@ -29,7 +29,7 @@
             $tempD = $movie->Director;
             $tempMA = $movie->MainActor;
             $tempI = $movie->IMBD;
-            $tempY = $moive->Year;
+            $tempY = $movie->Year;
            
             $tempDate = $moive->Date;
             $tempG = $movie->Genre;

@@ -1,11 +1,11 @@
 <?php
 include_once("dbinfo.php");
-// Creating Connection 
-$conn = mysqli_connect($db_host, $db_user, $db_password, "assignment3"); 
+// Creating Connection
+$conn = mysqli_connect($db_host, $db_user, $db_password, "contactForm");
 
-// Checking Connection 
-if (!$conn) { 
-    die("Connection failed: ". mysqli_connect_error()); 
+// Checking Connection
+if (!$conn) {
+    die("Connection failed: ". mysqli_connect_error());
 }
 echo "Connected Successfully";
 
@@ -15,8 +15,8 @@ $errors = false;
 
 if ( isset( $_POST["form1"] ) ) {
     //if it has, retrieve each field
-    $title = $_POST['title'];      
-    $firstName = $_POST['firstName'];      
+    $title = $_POST['title'];
+    $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
     $street = $_POST['street'];
     $city = $_POST['city'];
@@ -27,7 +27,8 @@ if ( isset( $_POST["form1"] ) ) {
     $email = $_POST['email'];
     $newsLetter = $_POST['newsLetter'];
 
-    // Error Checking Section 
+
+    // Error Checking Section
     $error_code = 0;
     if ( $title == null || empty($title) ) { $errors = true; $error_code=1; } else { $errors = false;}
     if ( $firstName == null || empty($firstName) ) { $errors = true; $error_code=2; } else { $errors = false;}
@@ -37,15 +38,15 @@ if ( isset( $_POST["form1"] ) ) {
     if ( $province == null || empty($province) ) { $errors = true; $error_code=6; } else { $errors = false;}
     if ( $postalCode == null || empty($postalCode) ) { $errors = true; $error_code=7; } else { $errors = false;}
     if ( $country == null || empty($country) ) { $errors = true; $error_code=8; } else { $errors = false;}
-    if ( !is_numeric($phone) == false || $phone == null || empty($phone) ) { $errors = true; $error_code=9; } else { $errors = false;}
+    if ( $phone == false || $phone == null || empty($phone) ) { $errors = true; $error_code=9; } else { $errors = false;}
     if ( $email == null || empty($email) ) { $errors = true; $error_code=10; } else { $errors = false;}
-    
+
 }
 
     if ( isset($_POST["form1"]) && $errors == false) {
 
-        $sql = "CREATE TABLE IF NOT EXISTS registered_users1 (
-            user_id int(11) NOT NULL AUTO_INCREMENT, 
+        $sql = "CREATE TABLE IF NOT EXISTS registered_users (
+            user_id int(11) NOT NULL AUTO_INCREMENT,
             title varchar(4) NOT NULL,
             firstName varchar(50) NOT NULL,
             lastName varchar(50) NOT NULL,
@@ -54,7 +55,7 @@ if ( isset( $_POST["form1"] ) ) {
             province varchar(50) NOT NULL,
             postalCode varchar(7) NOT NULL,
             country varchar(20) NOT NULL,
-            phone int(10) NOT NULL,
+            phone varchar(10) NOT NULL,
             email varchar(50) NOT NULL,
             newsLetter varchar(10) NULL,
             PRIMARY KEY (user_id)
@@ -62,30 +63,25 @@ if ( isset( $_POST["form1"] ) ) {
 
         mysqli_query($conn,$sql);
 
-        $sql=
-            "INSERT INTO registered_users1 
-            (title, firstName, lastName, street, city, province, postalCode, country, phone, email, newsLetter) 
-            VALUES
-            ('$title', '$firstName', '$lastName', '$street', '$city', '$province', '$postalCode', '$country', '$phone', '$email', '$newsLetter'
-            )";
+        $sql = "INSERT INTO registered_users (title, firstName, lastName, street, city, province, postalCode, country, phone, email, newsLetter) VALUES ('$title', '$firstName', '$lastName', '$street', '$city', '$province', '$postalCode', '$country', '$phone', '$email', '$newsLetter')";
 
         mysqli_query($conn,$sql);
-    
+
     }
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Assignment 3</title>    
+        <title>Contact Form </title>
         <style>table, th, td {  border: 1px solid black;} </style>
     </head>
     <body>
-    
+
         <form action="" method="post" onsubmit="return checkform(this)">
         <br/>
-        <!-- Input Section --> 
+        <!-- Input Section -->
             <label>Title</label>
-            <select name="title" required >
+            <select name="title"  >
                 <option value=""></option>
                 <option value="mr" >Mr.</option>
                 <?php if ($title != null && $title=="Mr") echo " selected "; ?>
@@ -105,26 +101,26 @@ if ( isset( $_POST["form1"] ) ) {
             <br/>
 
             <br />
-                <input type="text" name="firstName" placeholder="" required>First Name<br/>
+                <input type="text" name="firstName" placeholder="" >First Name<br/>
                 <?php if ( isset($_POST["form1"]) && empty($firstName)) echo " *required "; ?><br />
 
-                <input type="text" name="lastName" placeholder="" required>Last Name<br/>
+                <input type="text" name="lastName" placeholder="" >Last Name<br/>
                 <?php if ( isset($_POST["form1"]) && empty($lastName)) echo " *required "; ?><br />
 
-                <input type="text" name="street" placeholder="" required>Street<br/>
+                <input type="text" name="street" placeholder="" >Street<br/>
                 <?php if ( isset($_POST["form1"]) && empty($street)) echo " *required "; ?><br />
 
-                <input type="text" name="city" placeholder="" required>City<br/>
+                <input type="text" name="city" placeholder="" >City<br/>
                 <?php if ( isset($_POST["form1"]) && empty($city)) echo " *required "; ?><br />
 
-                <input type="text" name="province" placeholder=""required>Province<br/>
+                <input type="text" name="province" placeholder="">Province<br/>
                 <?php if ( isset($_POST["form1"]) && empty($province)) echo " *required "; ?><br />
 
-                <input type="text" name="postalCode" placeholder=""required>Postal Code<br/>
+                <input type="text" name="postalCode" placeholder="">Postal Code<br/>
                 <?php if ( isset($_POST["form1"]) && empty($postalCode)) echo " *required "; ?><br />
 
                 <label>Country</label>
-                <select name="country" required >
+                <select name="country"  >
                     <option value=""></option>
                     <option value="canada" >Canada</option>
                     <option value="usa" >USA</option>
@@ -133,10 +129,10 @@ if ( isset( $_POST["form1"] ) ) {
 
                 <br/>
 
-                <input type="text" name="phone" placeholder=""required>Phone Number<br/>
+                <input type="text" name="phone" placeholder="">Phone Number<br/>
                 <?php if ( isset($_POST["form1"]) && empty($phone)) echo " *required "; ?><br />
 
-                <input type="text" name="email" placeholder=""required>Email Address<br/>
+                <input type="text" name="email" placeholder="">Email Address<br/>
                 <?php if ( isset($_POST["form1"]) && empty($email)) echo " *required "; ?><br />
 
                 <input type="checkbox" name="newsLetter" value="Yes">News Letter<br/>
@@ -147,13 +143,12 @@ if ( isset( $_POST["form1"] ) ) {
 
         </form>
 
-        
              <!--  Output Section for the table -->
-             <?php 
+             <?php
                 echo " <div>";
                 echo " <table style='marginTop:16, border: 1px solid black box' >";
                 echo " <thead> ";
-                                
+
                 echo "  <tr>";
                 echo "      <th>User Id</th>";
                 echo "      <th>Title</th>";
@@ -170,13 +165,13 @@ if ( isset( $_POST["form1"] ) ) {
                 echo "  </tr>";
                 echo "  </thead>";
 
-               
-                
-                    $sql = "SELECT * FROM registered_users1 ";
+
+
+                    $sql = "SELECT * FROM registered_users ";
 
                     $results = mysqli_query($conn,$sql);
 
-                    // Loop to get all of the data from SQL 
+                    // Loop to get all of the data from SQL
                     while($row = mysqli_fetch_assoc($results)){
                         $tempId = $row['user_id'];
                         $tempTitle = $row['title'];
@@ -190,7 +185,7 @@ if ( isset( $_POST["form1"] ) ) {
                         $tempPhone = $row['phone'];
                         $tempEmail = $row['email'];
                         $tempNewsLetter = $row['newsLetter'];
-                    
+
                         echo "  <tbody>";
                         echo "  <tr>";
                         echo "       <td>". $tempId ."</td>";
@@ -206,7 +201,7 @@ if ( isset( $_POST["form1"] ) ) {
                         echo "       <td>". $tempEmail ."</td>";
                         echo "       <td>". $tempNewsLetter ."</td>";
                         echo "  </tr>";
-                                
+
                         echo "</tbody>";
                     }
 
@@ -216,6 +211,6 @@ if ( isset( $_POST["form1"] ) ) {
             mysqli_close($conn);
 
             ?>
-        
+
     </body>
 </html>
